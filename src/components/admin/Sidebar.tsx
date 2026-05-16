@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  LayoutDashboard, 
-  School, 
-  Users, 
-  GraduationCap, 
-  FileText, 
-  BarChart3, 
+import {
+  LayoutDashboard,
+  School,
+  Users,
+  GraduationCap,
+  FileText,
+  BarChart3,
   Settings,
   Menu,
   X
@@ -36,7 +36,7 @@ export function Sidebar() {
       <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white border-b z-50 flex items-center justify-between px-4">
         <div className="font-bold text-blue-700 text-xl">Teacher Evaluation</div>
         <div className="flex items-center gap-4">
-          <UserButton afterSignOutUrl="/sign-in" />
+          <UserButton />
           <button onClick={() => setIsMobileOpen(!isMobileOpen)} className="p-2">
             {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -56,7 +56,7 @@ export function Sidebar() {
           {navigation.map((item) => {
             const isActive = pathname === item.href || (item.href !== "/admin" && pathname?.startsWith(item.href));
             const Icon = item.icon;
-            
+
             return (
               <Link
                 key={item.name}
@@ -64,8 +64,8 @@ export function Sidebar() {
                 onClick={() => setIsMobileOpen(false)}
                 className={`
                   flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-all duration-200
-                  ${isActive 
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-900/20" 
+                  ${isActive
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-900/20"
                     : "hover:bg-slate-800 hover:text-white"
                   }
                 `}
@@ -79,7 +79,7 @@ export function Sidebar() {
 
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-slate-950/50 hidden lg:flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <UserButton afterSignOutUrl="/sign-in" />
+            <UserButton />
             <span className="text-sm font-medium text-slate-300">Admin Account</span>
           </div>
         </div>
@@ -87,7 +87,7 @@ export function Sidebar() {
 
       {/* Overlay for mobile */}
       {isMobileOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 z-30 lg:hidden"
           onClick={() => setIsMobileOpen(false)}
         />
