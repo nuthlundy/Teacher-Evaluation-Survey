@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Download, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { exportBatchCampusCSV, exportTeacherBatchCSV } from "@/actions/export";
+import { exportBatchCampusCSV } from "@/actions/export";
 
 export default function BatchExportForm({ campuses, teachers }: { campuses: any[], teachers?: any[] }) {
   const [exportMode, setExportMode] = useState<"campus" | "teacher">("campus");
