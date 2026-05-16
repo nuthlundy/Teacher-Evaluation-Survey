@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { getTeachers, createTeacher, deleteTeacher } from "@/actions/teachers";
+import { getTeachers, deleteTeacher } from "@/actions/teachers";
 import { getCampuses } from "@/actions/campuses";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +10,7 @@ import { BulkImportTeachers } from "@/components/admin/BulkImportTeachers";
 
 async function TeachersTable() {
   const teachers = await getTeachers();
-  
+
   return (
     <Card className="shadow-sm border-0 ring-1 ring-slate-100">
       <CardHeader>
@@ -41,8 +41,8 @@ async function TeachersTable() {
                 <TableCell>{teacher.teacher_name}</TableCell>
                 <TableCell className="text-slate-500">{teacher.subject || "N/A"}</TableCell>
                 <TableCell>
-                  {teacher.campuses && teacher.campuses.length > 0 
-                    ? teacher.campuses.map(c => c.name).join(", ") 
+                  {teacher.campuses && teacher.campuses.length > 0
+                    ? teacher.campuses.map(c => c.name).join(", ")
                     : <span className="text-slate-400 italic">No campus assigned</span>}
                 </TableCell>
                 <TableCell className="text-right">
