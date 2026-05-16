@@ -10,7 +10,7 @@ export async function submitEvaluation(data: {
   comment?: string;
 }) {
   const token = randomUUID();
-  
+
   const evaluation = await prisma.evaluation.create({
     data: {
       class_id: data.class_id,
@@ -34,5 +34,5 @@ export async function submitEvaluation(data: {
     }
   });
 
-  return { success: true, token: result.token };
+  return { success: true, token: evaluation.token };
 }
