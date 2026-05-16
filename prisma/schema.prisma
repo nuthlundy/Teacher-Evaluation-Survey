@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  engineType      = "library"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+model Campus {
+  id         String   @id @default(uuid())
+  name       String
+  code       String
+  created_at DateTime @default(now())
+  
+  classes    Class[]
+  teachers   Teacher[]
+}
+
+model Class {
+  id             String         @id @default(uuid())
+  class_code     String         @unique
+  campus_id      String
+  campus         Campus         @relation(fields: [campus_id], references: [id])
+  grade          String
+  section        String
+  
+  class_teachers ClassTeacher[]
+  evaluations    Evaluation[]
+
+  @@index([class_code])
+}
+
+model Teacher {
+  id             String         @id @default(uuid())
+  teacher_code   String         @unique
+  teacher_name   String
+  subject        String?
+  
+  campuses       Campus[]
+  
+  class_teachers ClassTeacher[]
+  evaluations    Evaluation[]
+
+  @@index([teacher_code])
+}
+
+model ClassTeacher {
+  id         String  @id @default(uuid())
+  class_id   String
+  class      Class   @relation(fields: [class_id], references: [id])
+  teacher_id String
+  teacher    Teacher @relation(fields: [teacher_id], references: [id])
+
+  @@index([class_id, teacher_id])
+}
+
+model EvaluationQuestion {
+  id          String             @id @default(uuid())
+  category    String             @default("General")
+  question_en String
+  question_kh String
+  order_no    Int
+  
+  answers     EvaluationAnswer[]
+}
+
+model Evaluation {
+  id           String               @id @default(uuid())
+  class_id     String
+  class        Class                @relation(fields: [class_id], references: [id])
+  teacher_id   String
+  teacher      Teacher              @relation(fields: [teacher_id], references: [id])
+  submitted_at DateTime             @default(now())
+  token        String
+  
+  answers      EvaluationAnswer[]
+  comments     EvaluationComment[]
+
+  @@index([class_id, teacher_id])
+}
+
+model EvaluationAnswer {
+  id            String             @id @default(uuid())
+  evaluation_id String
+  evaluation    Evaluation         @relation(fields: [evaluation_id], references: [id])
+  question_id   String
+  question      EvaluationQuestion @relation(fields: [question_id], references: [id])
+  score         Int
+}
+
+model EvaluationComment {
+  id            String     @id @default(uuid())
+  evaluation_id String
+  evaluation    Evaluation @relation(fields: [evaluation_id], references: [id])
+  comment       String
+}
