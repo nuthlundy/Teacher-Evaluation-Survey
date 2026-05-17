@@ -152,7 +152,7 @@ export default function AdminDashboard() {
           <SystemRefreshButton />
           <Link 
             href="/admin/reports" 
-            className="h-10 text-xs font-bold bg-indigo-650 hover:bg-indigo-750 text-white shadow-lg shadow-indigo-550/15 rounded-xl px-4 flex items-center gap-1.5 transition-all duration-300 hover:shadow-indigo-550/25"
+            className="h-10 text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-500/15 rounded-xl px-4 flex items-center gap-1.5 transition-all duration-300 hover:shadow-indigo-500/25"
           >
             <BarChart3 className="w-3.5 h-3.5" />
             View Reports
@@ -260,15 +260,15 @@ export default function AdminDashboard() {
             {/* Database Check */}
             <div className="flex items-center justify-between p-3.5 bg-slate-50/60 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors duration-200">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-100/50 flex items-center justify-center text-indigo-650">
+                <div className="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-100/50 flex items-center justify-center text-indigo-600">
                   <Database className="w-4 h-4" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-bold text-slate-750">Prisma database</span>
+                  <span className="text-xs font-bold text-slate-700">Prisma database</span>
                   <span className="text-[10px] text-slate-400">Supabase Connection</span>
                 </div>
               </div>
-              <span className="text-[10px] font-extrabold text-emerald-650 px-2 py-0.5 bg-emerald-50 border border-emerald-150 rounded-full flex items-center gap-1 shadow-sm">
+              <span className="text-[10px] font-extrabold text-emerald-700 px-2 py-0.5 bg-emerald-50 border border-emerald-200/50 rounded-full flex items-center gap-1 shadow-sm">
                 <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
                 HEALTHY
               </span>
@@ -281,11 +281,11 @@ export default function AdminDashboard() {
                   <HardDrive className="w-4 h-4" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-bold text-slate-750">File Storage</span>
+                  <span className="text-xs font-bold text-slate-700">File Storage</span>
                   <span className="text-[10px] text-slate-400">PDF Storage Bucket</span>
                 </div>
               </div>
-              <span className="text-[10px] font-extrabold text-emerald-650 px-2 py-0.5 bg-emerald-50 border border-emerald-150 rounded-full flex items-center gap-1 shadow-sm">
+              <span className="text-[10px] font-extrabold text-emerald-700 px-2 py-0.5 bg-emerald-50 border border-emerald-200/50 rounded-full flex items-center gap-1 shadow-sm">
                 <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
                 ACTIVE
               </span>
@@ -294,15 +294,15 @@ export default function AdminDashboard() {
             {/* Clerk Authentication API */}
             <div className="flex items-center justify-between p-3.5 bg-slate-50/60 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors duration-200">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-purple-50 border border-purple-100/50 flex items-center justify-center text-purple-650">
+                <div className="w-8 h-8 rounded-lg bg-purple-50 border border-purple-100/50 flex items-center justify-center text-purple-600">
                   <Globe className="w-4 h-4" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-bold text-slate-750">Clerk Auth API</span>
+                  <span className="text-xs font-bold text-slate-700">Clerk Auth API</span>
                   <span className="text-[10px] text-slate-400">Identity Providers</span>
                 </div>
               </div>
-              <span className="text-[10px] font-extrabold text-emerald-650 px-2 py-0.5 bg-emerald-50 border border-emerald-150 rounded-full flex items-center gap-1 shadow-sm">
+              <span className="text-[10px] font-extrabold text-emerald-700 px-2 py-0.5 bg-emerald-50 border border-emerald-200/50 rounded-full flex items-center gap-1 shadow-sm">
                 <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
                 ONLINE
               </span>
