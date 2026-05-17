@@ -29,9 +29,9 @@ export function SystemRefreshButton() {
       variant="outline" 
       onClick={handleRefresh} 
       disabled={isRefreshing}
-      className="text-slate-600 border-slate-300 hover:bg-slate-100"
+      className="h-10 text-xs font-bold text-slate-750 bg-white hover:bg-slate-50 border border-slate-200/80 rounded-xl shadow-sm hover:shadow transition-all duration-300 cursor-pointer px-4 flex items-center gap-1.5 disabled:opacity-50 disabled:pointer-events-none"
     >
-      <RefreshCw className={`w-4 h-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
+      <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
       Refresh System Cache
     </Button>
   );

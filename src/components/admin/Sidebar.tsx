@@ -9,9 +9,9 @@ import {
   GraduationCap,
   FileText,
   BarChart3,
-  Settings,
   Menu,
-  X
+  X,
+  Sparkles
 } from "lucide-react";
 import { useState } from "react";
 import { UserButton } from "@clerk/nextjs";
@@ -32,27 +32,48 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile Menu Button */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white border-b z-50 flex items-center justify-between px-4">
-        <div className="font-bold text-blue-700 text-xl">Teacher Evaluation</div>
+      {/* Mobile Menu Bar */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-slate-950/95 backdrop-blur-md border-b border-slate-900/60 z-50 flex items-center justify-between px-6 shadow-xl">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
+            <Sparkles className="w-4 h-4" />
+          </div>
+          <span className="font-extrabold text-white text-lg tracking-tight">Evaluation Admin</span>
+        </div>
         <div className="flex items-center gap-4">
           <UserButton />
-          <button onClick={() => setIsMobileOpen(!isMobileOpen)} className="p-2">
-            {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
+          <button 
+            onClick={() => setIsMobileOpen(!isMobileOpen)} 
+            className="p-2 text-slate-400 hover:text-white transition-colors cursor-pointer"
+          >
+            {isMobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
       {/* Sidebar Desktop & Mobile */}
       <div className={`
-        fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 text-slate-300 transform transition-transform duration-200 ease-in-out
+        fixed inset-y-0 left-0 z-40 w-64 bg-slate-950 text-slate-300 border-r border-slate-900/70 transform transition-transform duration-300 ease-in-out flex flex-col
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0
       `}>
-        <div className="h-16 flex items-center px-6 bg-slate-950/50 hidden lg:flex">
-          <span className="text-xl font-bold text-white tracking-tight">Evaluation Admin</span>
+        {/* Header Branding */}
+        <div className="h-20 flex items-center justify-between px-6 border-b border-slate-900 hidden lg:flex bg-slate-950">
+          <Link href="/admin" className="flex items-center gap-2.5 group">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 transition-transform group-hover:scale-105 duration-200">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm font-extrabold text-white tracking-tight leading-none">Evaluation Portal</span>
+              <span className="text-[10px] font-semibold text-indigo-400 mt-1 uppercase tracking-wider">Admin Console</span>
+            </div>
+          </Link>
+          <div className="px-2 py-0.5 rounded-full bg-slate-900 border border-slate-800 text-[10px] text-slate-500 font-bold">
+            v1.0
+          </div>
         </div>
 
-        <nav className="p-4 space-y-1">
+        {/* Navigation Items */}
+        <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto mt-16 lg:mt-0">
           {navigation.map((item) => {
             const isActive = pathname === item.href || (item.href !== "/admin" && pathname?.startsWith(item.href));
             const Icon = item.icon;
@@ -63,32 +84,42 @@ export function Sidebar() {
                 href={item.href}
                 onClick={() => setIsMobileOpen(false)}
                 className={`
-                  flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-all duration-200
+                  group flex items-center gap-3 px-4 py-3 rounded-2xl font-semibold transition-all duration-300 cursor-pointer
                   ${isActive
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-900/20"
-                    : "hover:bg-slate-800 hover:text-white"
+                    ? "bg-gradient-to-r from-indigo-500/10 to-indigo-500/0 text-indigo-400 border-l-2 border-indigo-500 shadow-sm shadow-indigo-950/20"
+                    : "text-slate-400 hover:bg-slate-900/60 hover:text-slate-200 hover:translate-x-1"
                   }
                 `}
               >
-                <Icon size={20} className={isActive ? "text-white" : "text-slate-400"} />
-                {item.name}
+                <Icon 
+                  size={18} 
+                  className={`transition-colors duration-300 ${isActive ? "text-indigo-400" : "text-slate-500 group-hover:text-slate-350"}`} 
+                />
+                <span className="text-sm tracking-wide">{item.name}</span>
               </Link>
             );
           })}
         </nav>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-slate-950/50 hidden lg:flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        {/* Footer User Profile */}
+        <div className="p-4 bg-slate-950 border-t border-slate-900 hidden lg:flex items-center justify-between">
+          <div className="flex items-center gap-3 w-full bg-slate-900/40 p-3 rounded-2xl border border-slate-900/60">
             <UserButton />
-            <span className="text-sm font-medium text-slate-300">Admin Account</span>
+            <div className="flex flex-col min-w-0">
+              <span className="text-xs font-bold text-slate-200 truncate">System Admin</span>
+              <span className="text-[10px] font-medium text-emerald-500 flex items-center gap-1 mt-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                Live and Active
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Overlay for mobile */}
+      {/* Overlay for mobile drawer */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 lg:hidden transition-opacity duration-300"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
