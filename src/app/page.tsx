@@ -40,7 +40,7 @@ export default function Home() {
           </form>
         </CardContent>
       </Card>
-      
+
       {/* Secret Admin Entrance */}
       <div className="fixed bottom-4 right-4 opacity-30 hover:opacity-100 transition-opacity">
         <a href="/admin" className="text-xs text-slate-400">Admin</a>

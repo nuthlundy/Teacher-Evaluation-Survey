@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 
 export default function SurveyError({
@@ -18,25 +18,39 @@ export default function SurveyError({
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
-      <Card className="w-full max-w-sm sm:max-w-md shadow-xl border-0 ring-1 ring-red-500/10 mx-auto">
-        <CardHeader className="text-center space-y-2">
-          <div className="mx-auto w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-2">
-            <AlertTriangle className="w-6 h-6 text-red-600" />
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50/60 via-slate-50 to-purple-50/60 flex items-center justify-center p-4 sm:p-6 text-slate-900 font-sans">
+      <Card className="w-full max-w-md bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-slate-100 p-8 animate-scale-in">
+        <CardContent className="flex flex-col items-center space-y-6 pt-6 p-0 text-center">
+          
+          {/* Warning Icon Container */}
+          <div className="w-16 h-16 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600 shadow-sm animate-pulse-subtle">
+            <AlertTriangle className="w-8 h-8" />
           </div>
-          <CardTitle className="text-xl sm:text-2xl text-slate-900 tracking-tight">Connection Issue</CardTitle>
-          <CardDescription className="text-sm sm:text-base">
-            We couldn't connect to the server. Traffic might be too high.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          <Button 
-            onClick={() => reset()} 
-            className="w-full h-12 text-lg font-semibold bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-200"
-          >
-            <RefreshCw className="w-5 h-5 mr-2" />
-            Try Again
-          </Button>
+          
+          {/* Bilingual content */}
+          <div className="space-y-2">
+            <h1 className="text-2xl font-black text-slate-800 tracking-tight">Connection Issue</h1>
+            <h2 className="text-sm font-semibold text-indigo-600 font-khmer">មានបញ្ហាការភ្ជាប់បណ្ដាញ</h2>
+            
+            <p className="text-sm text-slate-500 pt-3 leading-relaxed">
+              We couldn't connect to the survey server. Traffic might be temporarily high. Please try again.
+            </p>
+            <p className="text-xs text-slate-400 font-khmer pt-1.5 leading-normal max-w-xs mx-auto antialiased">
+              ប្រព័ន្ធមិនអាចភ្ជាប់ទៅកាន់ម៉ាស៊ីនមេបានទេ។ ចរាចរណ៍បណ្ដាញអាចមានភាពមមាញឹកខ្លាំង។ សូមព្យាយាមឡើងវិញ។
+            </p>
+          </div>
+
+          {/* Action button */}
+          <div className="w-full pt-2">
+            <Button 
+              onClick={() => reset()} 
+              className="w-full h-12 text-sm font-bold bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl shadow-xl shadow-indigo-100 transition-all cursor-pointer flex items-center justify-center gap-2"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Try Again / ព្យាយាមឡើងវិញ
+            </Button>
+          </div>
+
         </CardContent>
       </Card>
     </div>
