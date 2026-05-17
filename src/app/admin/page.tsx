@@ -120,6 +120,108 @@ function StatCardsSkeleton() {
   );
 }
 
+function formatRelativeTime(date: Date) {
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+  
+  if (diffInSeconds < 60) {
+    return "Just now";
+  }
+  
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes} min${diffInMinutes > 1 ? 's' : ''} ago`;
+  }
+  
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) {
+    return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
+  }
+  
+  const diffInDays = Math.floor(diffInHours / 24);
+  if (diffInDays < 30) {
+    return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
+  }
+  
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric"
+  });
+}
+
+async function ActivityFeed() {
+  const recentEvaluations = await prisma.evaluation.findMany({
+    orderBy: {
+      submitted_at: 'desc',
+    },
+    take: 5,
+    include: {
+      teacher: true,
+      class: {
+        include: {
+          campus: true,
+        },
+      },
+    },
+  });
+
+  if (recentEvaluations.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <div className="w-12 h-12 rounded-full bg-slate-50 border border-slate-100/80 flex items-center justify-center text-slate-400 mb-3">
+          <Activity className="w-5 h-5 text-indigo-500" />
+        </div>
+        <h3 className="text-xs font-bold text-slate-700">No evaluations submitted yet</h3>
+        <p className="text-[11px] text-slate-400 mt-1 max-w-[280px]">
+          Once students start completing surveys, the live activity feed will automatically populate here.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {recentEvaluations.map((evaluation) => {
+        const timeAgo = formatRelativeTime(evaluation.submitted_at);
+        return (
+          <div key={evaluation.id} className="flex gap-4 items-start group">
+            <div className="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-100/50 flex items-center justify-center text-indigo-600 mt-0.5 transition-transform group-hover:scale-105 duration-200 shrink-0">
+              <CheckCircle2 className="w-4.5 h-4.5" />
+            </div>
+            <div className="flex-1 space-y-1 border-b border-slate-100/60 pb-3 last:border-b-0 last:pb-0">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm font-semibold text-slate-700 group-hover:text-indigo-600 transition-colors">
+                  Assessment Submission Completed
+                </span>
+                <span className="text-[10px] font-medium text-slate-400 shrink-0">{timeAgo}</span>
+              </div>
+              <p className="text-xs text-slate-500 leading-normal">
+                Student submitted evaluation for <span className="font-bold text-slate-600">{evaluation.teacher.teacher_name}</span> (Class: <span className="font-mono bg-slate-100 text-[10px] px-1.5 py-0.5 rounded text-slate-600 font-bold">{evaluation.class.class_code}</span> at campus <span className="font-bold text-slate-600">{evaluation.class.campus.name}</span>)
+              </p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function ActivityFeedSkeleton() {
+  return (
+    <div className="space-y-6">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="flex gap-4 items-start animate-pulse">
+          <div className="w-8 h-8 rounded-lg bg-slate-100 shrink-0" />
+          <div className="flex-1 space-y-2 pb-3 border-b border-slate-100">
+            <div className="h-4 bg-slate-100 rounded w-1/3" />
+            <div className="h-3 bg-slate-100 rounded w-2/3" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function AdminDashboard() {
   const currentDateString = new Date().toLocaleDateString("en-US", {
     weekday: "short",
@@ -185,63 +287,9 @@ export default function AdminDashboard() {
           </CardHeader>
           
           <CardContent className="p-6">
-            <div className="space-y-6">
-              
-              {/* Event 1 */}
-              <div className="flex gap-4 items-start group">
-                <div className="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-100/50 flex items-center justify-center text-indigo-600 mt-0.5 transition-transform group-hover:scale-105 duration-200">
-                  <CheckCircle2 className="w-4.5 h-4.5" />
-                </div>
-                <div className="flex-1 space-y-1 border-b border-slate-50 pb-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-slate-700 group-hover:text-indigo-600 transition-colors">
-                      Assessment Submission Completed
-                    </span>
-                    <span className="text-[10px] font-medium text-slate-400">5 mins ago</span>
-                  </div>
-                  <p className="text-xs text-slate-500 leading-normal">
-                    Student submitted evaluation for <span className="font-bold text-slate-600">Mr. Chea Sophy</span> (Class: <span className="font-mono bg-slate-100 text-[10px] px-1.5 py-0.5 rounded text-slate-600 font-bold">C_BTB3_G10_A</span>)
-                  </p>
-                </div>
-              </div>
-
-              {/* Event 2 */}
-              <div className="flex gap-4 items-start group">
-                <div className="w-8 h-8 rounded-lg bg-purple-50 border border-purple-100/50 flex items-center justify-center text-purple-600 mt-0.5 transition-transform group-hover:scale-105 duration-200">
-                  <CheckCircle2 className="w-4.5 h-4.5" />
-                </div>
-                <div className="flex-1 space-y-1 border-b border-slate-50 pb-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-slate-700 group-hover:text-purple-600 transition-colors">
-                      Evaluation Record Completed
-                    </span>
-                    <span className="text-[10px] font-medium text-slate-400">18 mins ago</span>
-                  </div>
-                  <p className="text-xs text-slate-500 leading-normal">
-                    Student submitted feedback for <span className="font-bold text-slate-600">Dr. Sarah Connor</span> (Class: <span className="font-mono bg-slate-100 text-[10px] px-1.5 py-0.5 rounded text-slate-600 font-bold">C_BKK2_G04_C</span>)
-                  </p>
-                </div>
-              </div>
-
-              {/* Event 3 */}
-              <div className="flex gap-4 items-start group">
-                <div className="w-8 h-8 rounded-lg bg-amber-50 border border-amber-100/50 flex items-center justify-center text-amber-600 mt-0.5 transition-transform group-hover:scale-105 duration-200">
-                  <Sparkles className="w-4.5 h-4.5" />
-                </div>
-                <div className="flex-1 space-y-1 pb-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-slate-700 group-hover:text-amber-600 transition-colors">
-                      Survey Term Opened
-                    </span>
-                    <span className="text-[10px] font-medium text-slate-400">1 hour ago</span>
-                  </div>
-                  <p className="text-xs text-slate-500 leading-normal">
-                    Survey Session opened for all registered classrooms at <span className="font-bold text-slate-600">BTB</span> and <span className="font-bold text-slate-600">BKK</span> Campuses.
-                  </p>
-                </div>
-              </div>
-
-            </div>
+            <Suspense fallback={<ActivityFeedSkeleton />}>
+              <ActivityFeed />
+            </Suspense>
           </CardContent>
         </Card>
 
